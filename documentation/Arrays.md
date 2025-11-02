@@ -6,10 +6,21 @@
 3. [Accessing and Modifying Array Elements](#accessing-and-modifying-array-elements)
 4. [Array Length](#array-length)
 5. [Iterating Through Arrays](#iterating-through-arrays)
-6. [2D Arrays (Multidimensional Arrays)](#2d-arrays-multidimensional-arrays)
-7. [Common Array Operations](#common-array-operations)
-8. [Arrays Utility Class Methods](#arrays-utility-class-methods)
-9. [Common Pitfalls and Best Practices](#common-pitfalls-and-best-practices)
+6. [Working with Different Data Types](#working-with-different-data-types)
+   - Boolean Arrays
+   - Float and Double Arrays
+   - Byte, Short, and Long Arrays
+   - Character Arrays
+7. [2D Arrays (Multidimensional Arrays)](#2d-arrays-multidimensional-arrays)
+8. [Arrays of Objects](#arrays-of-objects)
+9. [Common Array Operations](#common-array-operations)
+10. [Arrays Utility Class Methods](#arrays-utility-class-methods)
+11. [Converting Data to Arrays](#converting-data-to-arrays)
+    - Numbers to Arrays
+    - Strings to Arrays
+    - Arrays Back to Other Types
+12. [Common Pitfalls and Best Practices](#common-pitfalls-and-best-practices)
+13. [Summary](#summary)
 
 ---
 
@@ -282,6 +293,251 @@ Average: 86.6
 - **Enhanced for loop**: Cleaner syntax, use when index not needed
 - **While loop**: Useful for complex iteration conditions
 - **Reverse iteration**: Start from last element, decrement index
+
+---
+
+## Working with Different Data Types
+
+### Boolean Arrays
+
+```java
+import java.util.Arrays;
+
+public class BooleanArrays {
+    public static void main(String[] args) {
+        // Create boolean array
+        boolean[] flags = new boolean[5];  // All initialized to false by default
+        System.out.println("Default boolean array: " + Arrays.toString(flags));
+        
+        // Initialize with values
+        boolean[] answers = {true, false, true, true, false};
+        System.out.println("Answer array: " + Arrays.toString(answers));
+        
+        // Set all to true
+        Arrays.fill(flags, true);
+        System.out.println("All true: " + Arrays.toString(flags));
+        
+        // Count true values
+        int trueCount = 0;
+        for (boolean answer : answers) {
+            if (answer) {
+                trueCount++;
+            }
+        }
+        System.out.println("Number of true values: " + trueCount);
+        
+        // Toggle boolean values
+        for (int i = 0; i < answers.length; i++) {
+            answers[i] = !answers[i];  // Flip true to false and vice versa
+        }
+        System.out.println("Toggled: " + Arrays.toString(answers));
+        
+        // Check if all are true
+        boolean allTrue = true;
+        for (boolean answer : answers) {
+            if (!answer) {
+                allTrue = false;
+                break;
+            }
+        }
+        System.out.println("All true: " + allTrue);
+        
+        // Check if any is true
+        boolean anyTrue = false;
+        for (boolean answer : answers) {
+            if (answer) {
+                anyTrue = true;
+                break;
+            }
+        }
+        System.out.println("Any true: " + anyTrue);
+    }
+}
+```
+
+**Output:**
+```
+Default boolean array: [false, false, false, false, false]
+Answer array: [true, false, true, true, false]
+All true: [true, true, true, true, true]
+Number of true values: 3
+Toggled: [false, true, false, false, true]
+All true: false
+Any true: true
+```
+
+### Float and Double Arrays
+
+```java
+import java.util.Arrays;
+
+public class FloatingPointArrays {
+    public static void main(String[] args) {
+        // Float array
+        float[] prices = {19.99f, 29.99f, 39.99f, 49.99f};
+        System.out.println("Prices (float): " + Arrays.toString(prices));
+        
+        // Double array - more precision
+        double[] temperatures = {98.6, 100.4, 97.8, 99.2, 98.3};
+        System.out.println("Temperatures (double): " + Arrays.toString(temperatures));
+        
+        // Calculate sum of doubles
+        double sum = 0.0;
+        for (double temp : temperatures) {
+            sum += temp;
+        }
+        System.out.println("Total temperature: " + sum);
+        
+        // Calculate average
+        double average = sum / temperatures.length;
+        System.out.println("Average temperature: " + String.format("%.2f", average));
+        
+        // Find max temperature
+        double max = temperatures[0];
+        for (double temp : temperatures) {
+            if (temp > max) {
+                max = temp;
+            }
+        }
+        System.out.println("Maximum temperature: " + max);
+        
+        // Find min temperature
+        double min = temperatures[0];
+        for (double temp : temperatures) {
+            if (temp < min) {
+                min = temp;
+            }
+        }
+        System.out.println("Minimum temperature: " + min);
+        
+        // Round all values
+        double[] roundedTemps = new double[temperatures.length];
+        for (int i = 0; i < temperatures.length; i++) {
+            roundedTemps[i] = Math.round(temperatures[i]);
+        }
+        System.out.println("Rounded temperatures: " + Arrays.toString(roundedTemps));
+        
+        // Compare float and double precision
+        float floatValue = 0.1f + 0.1f + 0.1f;
+        double doubleValue = 0.1 + 0.1 + 0.1;
+        System.out.println("Float precision: " + floatValue);
+        System.out.println("Double precision: " + doubleValue);
+    }
+}
+```
+
+**Output:**
+```
+Prices (float): [19.99, 29.99, 39.99, 49.99]
+Temperatures (double): [98.6, 100.4, 97.8, 99.2, 98.3]
+Total temperature: 494.3
+Average temperature: 98.86
+Maximum temperature: 100.4
+Minimum temperature: 97.8
+Rounded temperatures: [99.0, 100.0, 98.0, 99.0, 98.0]
+Float precision: 0.3
+Double precision: 0.30000000000000004
+```
+
+### Byte, Short, and Long Arrays
+
+```java
+import java.util.Arrays;
+
+public class IntegerTypesArrays {
+    public static void main(String[] args) {
+        // Byte array (-128 to 127)
+        byte[] bytes = {10, 20, 30, 40, 50};
+        System.out.println("Byte array: " + Arrays.toString(bytes));
+        System.out.println("Byte range: " + Byte.MIN_VALUE + " to " + Byte.MAX_VALUE);
+        
+        // Short array (-32,768 to 32,767)
+        short[] shorts = {1000, 2000, 3000, 4000};
+        System.out.println("\nShort array: " + Arrays.toString(shorts));
+        System.out.println("Short range: " + Short.MIN_VALUE + " to " + Short.MAX_VALUE);
+        
+        // Long array (very large numbers)
+        long[] distances = {384400L, 149600000L, 778500000L};  // Moon, Sun, Jupiter distances in km
+        System.out.println("\nLong array: " + Arrays.toString(distances));
+        System.out.println("Long range: " + Long.MIN_VALUE + " to " + Long.MAX_VALUE);
+        
+        // Converting between types
+        int[] ints = new int[bytes.length];
+        for (int i = 0; i < bytes.length; i++) {
+            ints[i] = bytes[i];  // Byte to int (widening)
+        }
+        System.out.println("\nConverted byte to int: " + Arrays.toString(ints));
+    }
+}
+```
+
+**Output:**
+```
+Byte array: [10, 20, 30, 40, 50]
+Byte range: -128 to 127
+
+Short array: [1000, 2000, 3000, 4000]
+Short range: -32768 to 32767
+
+Long array: [384400, 149600000, 778500000]
+Long range: -9223372036854775808 to 9223372036854775807
+
+Converted byte to int: [10, 20, 30, 40, 50]
+```
+
+### Character Arrays
+
+```java
+import java.util.Arrays;
+
+public class CharArrays {
+    public static void main(String[] args) {
+        // Character array
+        char[] letters = {'H', 'e', 'l', 'l', 'o'};
+        System.out.println("Char array: " + Arrays.toString(letters));
+        
+        // Print as string
+        System.out.println("As string: " + new String(letters));
+        
+        // Vowels and consonants
+        char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+        System.out.println("Alphabet length: " + alphabet.length);
+        
+        // Count vowels
+        char[] vowels = {'A', 'E', 'I', 'O', 'U'};
+        int vowelCount = 0;
+        for (char ch : alphabet) {
+            for (char vowel : vowels) {
+                if (ch == vowel) {
+                    vowelCount++;
+                    break;
+                }
+            }
+        }
+        System.out.println("Vowel count: " + vowelCount);
+        
+        // Character operations
+        char[] word = {'j', 'a', 'v', 'a'};
+        System.out.println("Original: " + new String(word));
+        
+        // Convert to uppercase
+        for (int i = 0; i < word.length; i++) {
+            word[i] = Character.toUpperCase(word[i]);
+        }
+        System.out.println("Uppercase: " + new String(word));
+    }
+}
+```
+
+**Output:**
+```
+Char array: [H, e, l, l, o]
+As string: Hello
+Alphabet length: 26
+Vowel count: 5
+Original: java
+Uppercase: JAVA
+```
 
 ---
 
@@ -698,251 +954,6 @@ First fruit uppercase: APPLE
 Banana found: true
 Combined: Apple Banana Cherry Date
 Joined: Apple, Banana, Cherry, Date
-```
-
----
-
-## Working with Different Data Types
-
-### Boolean Arrays
-
-```java
-import java.util.Arrays;
-
-public class BooleanArrays {
-    public static void main(String[] args) {
-        // Create boolean array
-        boolean[] flags = new boolean[5];  // All initialized to false by default
-        System.out.println("Default boolean array: " + Arrays.toString(flags));
-        
-        // Initialize with values
-        boolean[] answers = {true, false, true, true, false};
-        System.out.println("Answer array: " + Arrays.toString(answers));
-        
-        // Set all to true
-        Arrays.fill(flags, true);
-        System.out.println("All true: " + Arrays.toString(flags));
-        
-        // Count true values
-        int trueCount = 0;
-        for (boolean answer : answers) {
-            if (answer) {
-                trueCount++;
-            }
-        }
-        System.out.println("Number of true values: " + trueCount);
-        
-        // Toggle boolean values
-        for (int i = 0; i < answers.length; i++) {
-            answers[i] = !answers[i];  // Flip true to false and vice versa
-        }
-        System.out.println("Toggled: " + Arrays.toString(answers));
-        
-        // Check if all are true
-        boolean allTrue = true;
-        for (boolean answer : answers) {
-            if (!answer) {
-                allTrue = false;
-                break;
-            }
-        }
-        System.out.println("All true: " + allTrue);
-        
-        // Check if any is true
-        boolean anyTrue = false;
-        for (boolean answer : answers) {
-            if (answer) {
-                anyTrue = true;
-                break;
-            }
-        }
-        System.out.println("Any true: " + anyTrue);
-    }
-}
-```
-
-**Output:**
-```
-Default boolean array: [false, false, false, false, false]
-Answer array: [true, false, true, true, false]
-All true: [true, true, true, true, true]
-Number of true values: 3
-Toggled: [false, true, false, false, true]
-All true: false
-Any true: true
-```
-
-### Float and Double Arrays
-
-```java
-import java.util.Arrays;
-
-public class FloatingPointArrays {
-    public static void main(String[] args) {
-        // Float array
-        float[] prices = {19.99f, 29.99f, 39.99f, 49.99f};
-        System.out.println("Prices (float): " + Arrays.toString(prices));
-        
-        // Double array - more precision
-        double[] temperatures = {98.6, 100.4, 97.8, 99.2, 98.3};
-        System.out.println("Temperatures (double): " + Arrays.toString(temperatures));
-        
-        // Calculate sum of doubles
-        double sum = 0.0;
-        for (double temp : temperatures) {
-            sum += temp;
-        }
-        System.out.println("Total temperature: " + sum);
-        
-        // Calculate average
-        double average = sum / temperatures.length;
-        System.out.println("Average temperature: " + String.format("%.2f", average));
-        
-        // Find max temperature
-        double max = temperatures[0];
-        for (double temp : temperatures) {
-            if (temp > max) {
-                max = temp;
-            }
-        }
-        System.out.println("Maximum temperature: " + max);
-        
-        // Find min temperature
-        double min = temperatures[0];
-        for (double temp : temperatures) {
-            if (temp < min) {
-                min = temp;
-            }
-        }
-        System.out.println("Minimum temperature: " + min);
-        
-        // Round all values
-        double[] roundedTemps = new double[temperatures.length];
-        for (int i = 0; i < temperatures.length; i++) {
-            roundedTemps[i] = Math.round(temperatures[i]);
-        }
-        System.out.println("Rounded temperatures: " + Arrays.toString(roundedTemps));
-        
-        // Compare float and double precision
-        float floatValue = 0.1f + 0.1f + 0.1f;
-        double doubleValue = 0.1 + 0.1 + 0.1;
-        System.out.println("Float precision: " + floatValue);
-        System.out.println("Double precision: " + doubleValue);
-    }
-}
-```
-
-**Output:**
-```
-Prices (float): [19.99, 29.99, 39.99, 49.99]
-Temperatures (double): [98.6, 100.4, 97.8, 99.2, 98.3]
-Total temperature: 494.3
-Average temperature: 98.86
-Maximum temperature: 100.4
-Minimum temperature: 97.8
-Rounded temperatures: [99.0, 100.0, 98.0, 99.0, 98.0]
-Float precision: 0.3
-Double precision: 0.30000000000000004
-```
-
-### Byte, Short, and Long Arrays
-
-```java
-import java.util.Arrays;
-
-public class IntegerTypesArrays {
-    public static void main(String[] args) {
-        // Byte array (-128 to 127)
-        byte[] bytes = {10, 20, 30, 40, 50};
-        System.out.println("Byte array: " + Arrays.toString(bytes));
-        System.out.println("Byte range: " + Byte.MIN_VALUE + " to " + Byte.MAX_VALUE);
-        
-        // Short array (-32,768 to 32,767)
-        short[] shorts = {1000, 2000, 3000, 4000};
-        System.out.println("\nShort array: " + Arrays.toString(shorts));
-        System.out.println("Short range: " + Short.MIN_VALUE + " to " + Short.MAX_VALUE);
-        
-        // Long array (very large numbers)
-        long[] distances = {384400L, 149600000L, 778500000L};  // Moon, Sun, Jupiter distances in km
-        System.out.println("\nLong array: " + Arrays.toString(distances));
-        System.out.println("Long range: " + Long.MIN_VALUE + " to " + Long.MAX_VALUE);
-        
-        // Converting between types
-        int[] ints = new int[bytes.length];
-        for (int i = 0; i < bytes.length; i++) {
-            ints[i] = bytes[i];  // Byte to int (widening)
-        }
-        System.out.println("\nConverted byte to int: " + Arrays.toString(ints));
-    }
-}
-```
-
-**Output:**
-```
-Byte array: [10, 20, 30, 40, 50]
-Byte range: -128 to 127
-
-Short array: [1000, 2000, 3000, 4000]
-Short range: -32768 to 32767
-
-Long array: [384400, 149600000, 778500000]
-Long range: -9223372036854775808 to 9223372036854775807
-
-Converted byte to int: [10, 20, 30, 40, 50]
-```
-
-### Character Arrays
-
-```java
-import java.util.Arrays;
-
-public class CharArrays {
-    public static void main(String[] args) {
-        // Character array
-        char[] letters = {'H', 'e', 'l', 'l', 'o'};
-        System.out.println("Char array: " + Arrays.toString(letters));
-        
-        // Print as string
-        System.out.println("As string: " + new String(letters));
-        
-        // Vowels and consonants
-        char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-        System.out.println("Alphabet length: " + alphabet.length);
-        
-        // Count vowels
-        char[] vowels = {'A', 'E', 'I', 'O', 'U'};
-        int vowelCount = 0;
-        for (char ch : alphabet) {
-            for (char vowel : vowels) {
-                if (ch == vowel) {
-                    vowelCount++;
-                    break;
-                }
-            }
-        }
-        System.out.println("Vowel count: " + vowelCount);
-        
-        // Character operations
-        char[] word = {'j', 'a', 'v', 'a'};
-        System.out.println("Original: " + new String(word));
-        
-        // Convert to uppercase
-        for (int i = 0; i < word.length; i++) {
-            word[i] = Character.toUpperCase(word[i]);
-        }
-        System.out.println("Uppercase: " + new String(word));
-    }
-}
-```
-
-**Output:**
-```
-Char array: [H, e, l, l, o]
-As string: Hello
-Alphabet length: 26
-Vowel count: 5
-Original: java
-Uppercase: JAVA
 ```
 
 ---
